@@ -38,7 +38,7 @@ export default {
   <div class="search">
     <h1>Search Books</h1>
     <div class="search-controls">
-      <input v-model="searchQuery" placeholder="Enter title or author..." @input="performSearch" />
+      <input v-model="searchQuery" placeholder="Enter title or author..." />
       <select v-model="searchType">
         <option value="title">Title</option>
         <option value="author">Author</option>

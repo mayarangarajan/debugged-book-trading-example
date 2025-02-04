@@ -5,19 +5,24 @@ import type { Trade, OutgoingTrade } from '../../shared/book'
 export default {
   components: { BookView },
   props: {
-    incomingTrades: Array<Trade>,
-    outgoingTrades: Array<OutgoingTrade>,
+    incomingTrades: {
+      type: Array as () => Trade[],
+      required: true,
+    },
+    outgoingTrades: {
+      type: Array as () => OutgoingTrade[],
+      required: true,
+    },
   },
   methods: {
     acceptTrade(tradeId: number): void {
-      const tradeIndex = this.incomingTrades.findIndex(trade => trade.id === tradeId);
-      if (tradeIndex !== -1) {
-        const acceptedTrade = this.incomingTrades.splice(tradeIndex, 1)[0];
-        this.$emit('tradeAccepted', acceptedTrade);
+      const trade = this.incomingTrades.find(trade => trade.id === tradeId);
+      if (trade) {
+        this.$emit('tradeAccepted', trade); // Emit to parent
       }
     },
     declineTrade(tradeId: number): void {
-      this.incomingTrades = this.incomingTrades.filter(trade => trade.id !== tradeId);
+      this.$emit('tradeDeclined', tradeId); // Emit event to parent for removal
     }
   }
 }
